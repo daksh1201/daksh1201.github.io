@@ -1,65 +1,45 @@
 const terminal = document.getElementById("terminal");
 
-let delay = 0;
-const typeSpeed = 35;
-const prompt = '<span class="prompt">root@localhost:~#</span> ';
+const script = [
 
-const loginSequence = [
-  { type: "command", text: "login daksh", delay: 500 },
-  { type: "output", text: "Authenticating...", delay: 1000 },
-  { type: "output", text: "Login successful. Welcome daksh.", delay: 1000 },
-  { type: "spacer", delay: 300 }
+  { type: "command", text: "login: daksh" },
+  { type: "command", text: "password: ********" },
+  { type: "output", text: "Authentication successful. Access granted." },
+  { type: "spacer" },
+
+  { type: "command", text: "daksh@localhost:~$ sudo cat /usr/bin/profile.sh" },
+  { type: "output", text: "#!/bin/bash" },
+  { type: "output", text: "echo 'Loading profile...'" },
+  { type: "spacer" },
+
+  { type: "output", text: "Initiated in the trenches of VAPT — testing systems, breaking into apps, and reporting flaws." },
+  { type: "spacer" },
+  { type: "output", text: "Studied cyber law, policy, and digital rights." },
+  { type: "output", text: "Now operating at the intersection of security, law, and governance." },
+  { type: "spacer" },
+  { type: "output", text: "Designing policies, performing audits, and building better systems." },
+  { type: "output", text: "I write frameworks like I write exploit PoCs — precise, lean, and no unnecessary logic." },
+  { type: "spacer" },
+  { type: "output", text: "Data Protection? I don’t just read the Act — I translate it into architecture." },
+  { type: "output", text: "RBI Master Directions, ISO 27001, SOC 2 — not just checkboxes, but blueprints." },
+  { type: "output", text: "You'll find me reviewing contracts with OWASP in one tab and the IT Act in another." },
+  { type: "output", text: "I break apps for breakfast, audit infra for lunch, and dissect legal frameworks for dinner." },
+  { type: "output", text: "Tech is my canvas. Law is my syntax. Security is the script that binds them." },
+  { type: "spacer" },
+  { type: "output", text: "Call me when your auditors are confused, your lawyers are lost, and your SIEM is quiet." },
+  { type: "output", text: "Because I speak fluent syscalls, threat models, and jurisprudence." },
+  { type: "output", text: "And yes — I still get excited about logs, legal loopholes, and Linux kernels." },
+  { type: "output", text: "This isn’t a profession — it’s a compiled binary of law, logic, and zero-trust." },
+  { type: "spacer" },
+
+
+  { type: "command", text: "daksh@localhost:~$ echo $CONTACT" },
+  { type: "output", text: "Email: <a href='mailto:daksh1201@gmail.com'>daksh1201@gmail.com</a>" },
+  { type: "spacer" },
+
+  { type: "command", text: "daksh@localhost:~$ shutdown -h now" },
+  { type: "output", text: "Session terminated. See you in the matrix !!!" }
 ];
-
-const mainScript = [
-  { type: "command", text: "sudo -i", delay: 700 },
-  { type: "output", text: "[sudo] password for daksh: *********", delay: 1000 },
-  { type: "output", text: "Access granted. Welcome, root.", delay: 700 },
-  { type: "spacer", delay: 400 },
-
-  { type: "command", text: "nmap -A daksh.io", delay: 700 },
-  { type: "output", text: "Scanning... Found open ports: 80 (http), 443 (https), 22 (ssh), 1337 (rooted)", delay: 1000 },
-  { type: "output", text: "OS Detected: Hybrid - Legal Brain v1.0 + Cybersecurity Kernel 5.1", delay: 700 },
-  { type: "output", text: "Vulnerabilities: None. Hardened via GRC policies, legal audits, and caffeine.", delay: 600 },
-  { type: "spacer", delay: 300 },
-
-  { type: "command", text: "cat /etc/daksh_profile", delay: 500 },
-  { type: "output", text: "Name: Daksh", delay: 300 },
-  { type: "output", text: "Roles: Cybersecurity Consultant | Legal Architect | Framework Fixer", delay: 400 },
-  { type: "output", text: "Specialties: ISO 27001, SOC 2, DPDP, RBI IT Guidelines, ITGCs, VAPT, Compliance Design", delay: 500 },
-  { type: "output", text: "Languages: Python, Law, Audit Speak, Human", delay: 400 },
-  { type: "spacer", delay: 200 },
-
-  { type: "command", text: "sudo rm -rf /nonsense_policies", delay: 500 },
-  { type: "output", text: "Deleting... ✅ Done. Replaced with contextual, risk-aware policies.", delay: 600 },
-  { type: "spacer", delay: 300 },
-
-  { type: "command", text: "curl -X GET daksh://backstory", delay: 500 },
-  { type: "output", text: "Originally trained in Criminology. Realized systems crash more often than people.", delay: 600 },
-  { type: "output", text: "Shifted into MCA, specialized in Information Security. Never looked back.", delay: 600 },
-  { type: "output", text: "Now operating at the intersection of tech, law, and pure logic.", delay: 500 },
-  { type: "spacer", delay: 200 },
-
-  { type: "command", text: "ip a", delay: 400 },
-  { type: "output", text: "inet 127.0.0.1/localhost", delay: 300 },
-  { type: "output", text: "inet 10.0.13.37/edge-node", delay: 300 },
-  { type: "output", text: "inet 192.168.0.007/on-prem-awareness", delay: 300 },
-  { type: "output", text: "inet 172.16.42.42/cloud-native-compliance", delay: 300 },
-  { type: "spacer", delay: 300 },
-
-  { type: "command", text: "echo $PASSION", delay: 300 },
-  { type: "output", text: "Information Security. Privacy. Enforcement. Impact. Integrity. No fluff.", delay: 500 },
-  { type: "spacer", delay: 300 },
-
-  { type: "command", text: "echo $CONTACT", delay: 400 },
-  { type: "output", text: "Email: <a href='mailto:daksh1201@gmail.com'>daksh1201@gmail.com</a>", delay: 500 },
-  { type: "spacer", delay: 300 },
-
-  { type: "command", text: "shutdown -h now", delay: 700 },
-  { type: "output", text: "Session terminated. Compliance secured. Threats logged. Signing off...", delay: 800 }
-];
-
-const fullScript = [...loginSequence, ...mainScript];
 
 let lineIndex = 0;
 let charIndex = 0;
@@ -67,16 +47,34 @@ let currentLine = null;
 let fullTextRaw = "";
 let fullTextHtml = "";
 
-function executeLine(entry) {
+function typeNextChar() {
+  if (lineIndex >= script.length) {
+    const cursor = document.querySelector(".cursor");
+    if (cursor) cursor.remove();
+    return;
+  }
+
+  const entry = script[lineIndex];
+
+  if (entry.type === "spacer") {
+    const spacer = document.createElement("div");
+    spacer.classList.add("line");
+    spacer.innerHTML = " ";
+    terminal.appendChild(spacer);
+    lineIndex++;
+    setTimeout(typeNextChar, 150);
+    return;
+  }
+
   if (!currentLine) {
     currentLine = document.createElement("div");
     currentLine.classList.add("line");
     terminal.appendChild(currentLine);
 
     if (entry.type === "command") {
-      fullTextHtml = prompt + escapeHtml(entry.text);
-      fullTextRaw = stripHtml(prompt) + entry.text;
-    } else if (entry.type === "output") {
+      fullTextHtml = '<span class="prompt">daksh@localhost:~$</span> ' + entry.text;
+      fullTextRaw = stripHtml('<span class="prompt">daksh@localhost:~$</span> ') + entry.text;
+    } else {
       fullTextHtml = entry.text;
       fullTextRaw = stripHtml(entry.text);
     }
@@ -84,36 +82,18 @@ function executeLine(entry) {
 
   if (charIndex < fullTextRaw.length) {
     let displayed = escapeHtml(fullTextRaw.slice(0, charIndex + 1));
-
     if (entry.type === "command") {
-      displayed = prompt + escapeHtml(fullTextRaw.slice(stripHtml(prompt).length, charIndex + 1));
+      displayed = '<span class="prompt">daksh@localhost:~$</span> ' + escapeHtml(fullTextRaw.slice(stripHtml('<span class="prompt">daksh@localhost:~$</span> ').length, charIndex + 1));
     }
-
     currentLine.innerHTML = displayed + '<span class="cursor"></span>';
     charIndex++;
-    setTimeout(() => executeLine(entry), typeSpeed);
+    setTimeout(typeNextChar, 35);
   } else {
     currentLine.innerHTML = fullTextHtml;
     currentLine = null;
     charIndex = 0;
     lineIndex++;
-    if (lineIndex < fullScript.length) {
-      setTimeout(() => typeNextChar(), fullScript[lineIndex].delay || 300);
-    }
-  }
-}
-
-function typeNextChar() {
-  const entry = fullScript[lineIndex];
-  if (entry.type === "spacer") {
-    const spacer = document.createElement("div");
-    spacer.classList.add("line");
-    spacer.innerHTML = " ";
-    terminal.appendChild(spacer);
-    lineIndex++;
-    setTimeout(() => typeNextChar(), entry.delay || 200);
-  } else {
-    executeLine(entry);
+    setTimeout(typeNextChar, 300);
   }
 }
 

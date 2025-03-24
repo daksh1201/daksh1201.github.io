@@ -12,21 +12,19 @@ body {
 }
 
 .prompt {
-  color: #FF4136; /* Red */
+  color: #FF4136; /* Red prompt */
 }
 
 .cursor {
   display: inline-block;
   width: 10px;
-  background-color: #00ff00;
+  background-color: #00FF00;
   animation: blink 1s steps(2, start) infinite;
   margin-left: 2px;
 }
 
 @keyframes blink {
-  to {
-    visibility: hidden;
-  }
+  to { visibility: hidden; }
 }
 
 a {
