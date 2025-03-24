@@ -1,15 +1,43 @@
-<html><head>
-<meta charset="utf-8"> 
-    <title>Daksh Pandya</title> 
-    <script type="text/javascript" src="js/jquery.min.js"></script> 
-    <link rel="stylesheet" type="text/css" href="css/index.css">
-  </head> 
-  <body> 
-    <script type="text/javascript" src="js/index.js"> 
-    </script> 
-    <div id="console"></div> 
-    
-    
-   
- 
-</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hacker Terminal - About Me</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+    }
+    .terminal {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .line::after {
+      content: '█';
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    <div class="line">> whoami</div>
+    <div class="output">Hi, I'm Daksh! A cybersecurity nerd and full-stack dreamer. 🛡️💻</div>
+
+    <div class="line">> skills</div>
+    <div class="output">JavaScript, Python, HTML, CSS, Linux, Cybersecurity, GRC</div>
+
+    <div class="line">> projects</div>
+    <div class="output"><a href="https://github.com/your-username" style="color: #00ff00">GitHub</a></div>
+
+    <div class="line">> contact</div>
+    <div class="output">Email: you@example.com | Twitter: @you</div>
+  </div>
+</body>
+</html>
