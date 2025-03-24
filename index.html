@@ -2,82 +2,99 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hacker Terminal - Daksh</title>
+  <title>Daksh's Terminal</title>
   <style>
     body {
       background-color: #000;
-      color: #00ff00;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 18px;
+      color: #00FF00;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
       padding: 20px;
     }
 
-    #terminal {
-      white-space: pre-wrap;
+    .line {
+      display: block;
+      white-space: pre;
     }
 
     .cursor {
       display: inline-block;
       width: 10px;
-      animation: blink 1s step-start infinite;
+      background-color: #00ff00;
+      animation: blink 1s steps(2, start) infinite;
+      margin-left: 2px;
     }
 
     @keyframes blink {
-      50% { opacity: 0; }
+      to { visibility: hidden; }
     }
 
     a {
-      color: #00ff00;
+      color: #00FF00;
       text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div id="terminal"></div>
+
   <script>
-    const terminal = document.getElementById('terminal');
-    const lines = [
-      '> whoami',
+    const terminal = document.getElementById("terminal");
+
+    const commands = [
+      "> whoami",
       "Hi, I'm Daksh. A cybersecurity enthusiast, info-sec geek & digital ninja. 🛡️👨‍💻",
-      '',
-      '> skills',
-      'JavaScript, Python, Linux, Cyber Law, GRC, ISO 27001, SOC 2, DPDP Act',
-      '',
-      '> projects',
-      '🔗 GitHub: https://github.com/your-username',
-      '',
-      '> contact',
-      '📧 Email: daksh@example.com',
-      '🐦 Twitter: @yourhandle',
-      '',
-      '> exit',
-      'Session terminated. See you in the matrix. ☠️'
+      "",
+      "> skills",
+      "JavaScript, Python, Linux, Cyber Law, GRC, ISO 27001, SOC 2, DPDP Act",
+      "",
+      "> projects",
+      "🔗 GitHub: https://github.com/your-username",
+      "",
+      "> contact",
+      "📧 Email: daksh@example.com",
+      "🐦 Twitter: @yourhandle",
+      "",
+      "> exit",
+      "Session terminated. See you in the matrix. ☠️"
     ];
 
     let lineIndex = 0;
     let charIndex = 0;
+    let currentLine = null;
 
-    function typeLine() {
-      if (lineIndex >= lines.length) return;
+    function typeNextChar() {
+      if (lineIndex >= commands.length) {
+        // End of typing
+        const cursor = document.querySelector(".cursor");
+        if (cursor) cursor.remove();
+        return;
+      }
 
-      const line = lines[lineIndex];
-      const currentText = line.slice(0, charIndex);
-      terminal.innerHTML = terminal.innerHTML.replace(/<span class="cursor"><\/span>$/, '') + currentText + '<span class="cursor"></span>';
-      
-      charIndex++;
+      // If no current line element, create one
+      if (!currentLine) {
+        currentLine = document.createElement("div");
+        currentLine.classList.add("line");
+        currentLine.innerHTML = "";
+        terminal.appendChild(currentLine);
+      }
 
-      if (charIndex <= line.length) {
-        setTimeout(typeLine, 40); // typing speed per character
+      const currentText = commands[lineIndex];
+      if (charIndex < currentText.length) {
+        currentLine.innerHTML = currentText.slice(0, charIndex + 1) + '<span class="cursor"></span>';
+        charIndex++;
+        setTimeout(typeNextChar, 35); // Typing speed
       } else {
-        terminal.innerHTML = terminal.innerHTML.replace(/<span class="cursor"><\/span>$/, '') + '\n';
-        lineIndex++;
+        // Finish current line
+        currentLine.innerHTML = currentText;
+        currentLine = null;
         charIndex = 0;
-        setTimeout(typeLine, 300); // delay between lines
+        lineIndex++;
+        setTimeout(typeNextChar, 300); // Delay before next line
       }
     }
 
-    typeLine();
+    typeNextChar();
   </script>
 </body>
 </html>
