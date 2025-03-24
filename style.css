@@ -1,0 +1,35 @@
+body {
+  background-color: #000;
+  color: #00FF00;
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  padding: 20px;
+}
+
+.line {
+  display: block;
+  white-space: pre;
+}
+
+.prompt {
+  color: #FF4136; /* Red */
+}
+
+.cursor {
+  display: inline-block;
+  width: 10px;
+  background-color: #00ff00;
+  animation: blink 1s steps(2, start) infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+a {
+  color: #00FF00;
+  text-decoration: underline;
+}
