@@ -18,7 +18,7 @@
     }
 
     .prompt {
-      color: #00FF00;
+      color: #FF4136; /* Red */
     }
 
     .cursor {
@@ -45,8 +45,7 @@
   <script>
     const terminal = document.getElementById("terminal");
 
-    // Prefix to simulate terminal
-    const terminalPath = "daksh@localhost:/home/daksh > $ ";
+    const terminalPrompt = '<span class="prompt">daksh@localhost:/home/daksh > $</span> ';
 
     const script = [
       { type: "command", text: "whoami" },
@@ -69,10 +68,11 @@
     let lineIndex = 0;
     let charIndex = 0;
     let currentLine = null;
+    let fullTextRaw = "";
+    let fullTextHtml = "";
 
     function typeNextChar() {
       if (lineIndex >= script.length) {
-        // Done
         const cursor = document.querySelector(".cursor");
         if (cursor) cursor.remove();
         return;
@@ -94,21 +94,45 @@
         currentLine = document.createElement("div");
         currentLine.classList.add("line");
         terminal.appendChild(currentLine);
+
+        if (entry.type === "command") {
+          fullTextHtml = terminalPrompt + entry.text;
+          fullTextRaw = stripHtml(terminalPrompt) + entry.text;
+        } else {
+          fullTextHtml = entry.text;
+          fullTextRaw = entry.text;
+        }
       }
 
-      const fullText = (entry.type === "command" ? terminalPath : "") + entry.text;
-
-      if (charIndex < fullText.length) {
-        currentLine.innerHTML = fullText.slice(0, charIndex + 1) + '<span class="cursor"></span>';
+      if (charIndex < fullTextRaw.length) {
+        let displayed = escapeHtml(fullTextRaw.slice(0, charIndex + 1));
+        if (entry.type === "command") {
+          // Re-attach styled prompt
+          displayed = terminalPrompt + escapeHtml(fullTextRaw.slice(stripHtml(terminalPrompt).length, charIndex + 1));
+        }
+        currentLine.innerHTML = displayed + '<span class="cursor"></span>';
         charIndex++;
-        setTimeout(typeNextChar, 35); // Speed per character
+        setTimeout(typeNextChar, 35);
       } else {
-        currentLine.innerHTML = fullText;
+        currentLine.innerHTML = fullTextHtml;
         currentLine = null;
         charIndex = 0;
         lineIndex++;
-        setTimeout(typeNextChar, 300); // Delay before next line
+        setTimeout(typeNextChar, 300);
       }
+    }
+
+    function stripHtml(html) {
+      const div = document.createElement("div");
+      div.innerHTML = html;
+      return div.textContent || div.innerText || "";
+    }
+
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
     }
 
     typeNextChar();
