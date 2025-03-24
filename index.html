@@ -3,41 +3,81 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hacker Terminal - About Me</title>
+  <title>Hacker Terminal - Daksh</title>
   <style>
     body {
       background-color: #000;
       color: #00ff00;
-      font-family: 'Courier New', monospace;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 18px;
       padding: 20px;
     }
-    .terminal {
-      max-width: 800px;
-      margin: 0 auto;
+
+    #terminal {
+      white-space: pre-wrap;
     }
-    .line::after {
-      content: '█';
-      animation: blink 1s infinite;
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      animation: blink 1s step-start infinite;
     }
+
     @keyframes blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
+      50% { opacity: 0; }
+    }
+
+    a {
+      color: #00ff00;
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <div class="terminal">
-    <div class="line">> whoami</div>
-    <div class="output">Hi, I'm Daksh! A cybersecurity nerd and full-stack dreamer. 🛡️💻</div>
+  <div id="terminal"></div>
+  <script>
+    const terminal = document.getElementById('terminal');
+    const lines = [
+      '> whoami',
+      "Hi, I'm Daksh. A cybersecurity enthusiast, info-sec geek & digital ninja. 🛡️👨‍💻",
+      '',
+      '> skills',
+      'JavaScript, Python, Linux, Cyber Law, GRC, ISO 27001, SOC 2, DPDP Act',
+      '',
+      '> projects',
+      '🔗 GitHub: https://github.com/your-username',
+      '',
+      '> contact',
+      '📧 Email: daksh@example.com',
+      '🐦 Twitter: @yourhandle',
+      '',
+      '> exit',
+      'Session terminated. See you in the matrix. ☠️'
+    ];
 
-    <div class="line">> skills</div>
-    <div class="output">JavaScript, Python, HTML, CSS, Linux, Cybersecurity, GRC</div>
+    let lineIndex = 0;
+    let charIndex = 0;
 
-    <div class="line">> projects</div>
-    <div class="output"><a href="https://github.com/your-username" style="color: #00ff00">GitHub</a></div>
+    function typeLine() {
+      if (lineIndex >= lines.length) return;
 
-    <div class="line">> contact</div>
-    <div class="output">Email: you@example.com | Twitter: @you</div>
-  </div>
+      const line = lines[lineIndex];
+      const currentText = line.slice(0, charIndex);
+      terminal.innerHTML = terminal.innerHTML.replace(/<span class="cursor"><\/span>$/, '') + currentText + '<span class="cursor"></span>';
+      
+      charIndex++;
+
+      if (charIndex <= line.length) {
+        setTimeout(typeLine, 40); // typing speed per character
+      } else {
+        terminal.innerHTML = terminal.innerHTML.replace(/<span class="cursor"><\/span>$/, '') + '\n';
+        lineIndex++;
+        charIndex = 0;
+        setTimeout(typeLine, 300); // delay between lines
+      }
+    }
+
+    typeLine();
+  </script>
 </body>
 </html>
